@@ -3,14 +3,14 @@ This is a simple chess simulator (game?) written in vanilla Javascript. I'm maki
 
 Acomplished so far:
   
-  draw the board and pieces
+  - draw the board and pieces
   
-  move pieces according to their rules
+  - move pieces according to their rules
   
 Still to do:
   
-  detect collision (only knights can jump other pieces)
+  - detect collision (only knights can jump other pieces)
   
-  write the opponent AI so this is actually a game
+  - write the opponent AI so this is actually a game
   
-  odd and ends 
+  - odd and ends 
