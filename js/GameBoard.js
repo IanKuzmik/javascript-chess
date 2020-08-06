@@ -93,16 +93,18 @@ class GameBoard {
         }
     }
 
+    /* 
+    Input: (Object) chess piece to move (will be inHand). (Object) the location to move it
+    Output: (Void) redraw the piece in the new location and 'paint over' it's old location. 
+    */
     movePiece( piece, newLocation ) {
-        // paint over old location of piece
-        const oldLocation = piece.location; //piece.getLocation();
+        const oldLocation = piece.location;
         this.ctx.fillStyle = oldLocation.color;
         this.ctx.fillRect( oldLocation.x-this.size/32, oldLocation.y-this.size/32, this.size/8, this.size/8 )
-        // move piece
         piece.move(newLocation);
     }
 
-     /* Initialize the chess pieces */
+     /* Initialize the chess pieces and return an array of them, distinguishing white pieces and black pieces */
      addPieces() {
         return [ 
             [
