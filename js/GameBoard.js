@@ -32,7 +32,8 @@ class GameBoard {
                 }
             }
             // pick up piece
-            if (this.checkSpace(clickedSpace) ) {       
+            if (this.checkSpace(clickedSpace) ) { 
+                console.log( this.getPossibleMoves( this.checkSpace(clickedSpace) ) );  
                 this.inHand = this.checkSpace(clickedSpace);
             // move piece
             } else if (this.inHand) {
@@ -46,20 +47,42 @@ class GameBoard {
         })
     }
 
+    
+    /* 
+    Return an array of 'space' objects realting to every possible move a given chess piece has. 
+    Check for collision
+    check for black pieces
+    */
+    getPossibleMoves( piece ) {
+        let moveList = [];
+        for( const space in this.spaces ) { 
+            if( piece.checkMoveRules(this.spaces[space]) && !this.checkSpace(this.spaces[space]) ) {
+                moveList.push(this.spaces[space])
+            }
+        }
+        return moveList; 
+    }
+
 
     /*
-    Input: (Object) a 'space' object with x,y coordinates
+    Input: (Object) a 'space' object with x,y coordinates; (String) the color of pieces to check
     Output: (Object) a chess piece within that space, or (Null) if space is empty
     */
-    checkSpace( clickedSpace ) {
-        for ( const piece in this.whitePieces ) {
-            if (clickedSpace.x == this.whitePieces[piece].location.x && clickedSpace.y == this.whitePieces[piece].location.y )  {
+    checkSpace( clickedSpace, color = null ) {
+        let pieceArray = [];
+        if( color ) {
+            pieceArray = (color == 'black' ? this.blackPieces : this.whitePieces ); // check for one color of pieces
+        } else {
+            pieceArray = this.blackPieces.concat(this.whitePieces);                 // check for all pieces
+        }
+        for ( const piece in pieceArray ) {
+            if (clickedSpace.x == pieceArray[piece].location.x && clickedSpace.y == pieceArray[piece].location.y )  {
                 if (this.inHand) { 
                     this.inHand.draw( this.inHand.location.x, this.inHand.location.y ); // redraw previous 'inHand' piece w/o a highlight
                  }
-                this.inHand = this.whitePieces[piece]
-                this.whitePieces[piece].draw( clickedSpace.x, clickedSpace.y, true );   // redraw this piece in place with a highlight
-                return this.whitePieces[piece]
+                this.inHand = pieceArray[piece]
+                pieceArray[piece].draw( clickedSpace.x, clickedSpace.y, true );   // redraw this piece in place with a highlight
+                return pieceArray[piece]
             } 
         } 
         return null; 
